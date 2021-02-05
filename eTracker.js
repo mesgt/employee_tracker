@@ -1,4 +1,6 @@
-var mysql = require("mysql");
+var mysql = require('mysql');
+const inquirer = require('inquirer');
+
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -14,3 +16,4 @@ connection.connect(function (err) {
     console.log(connection);
 
 });
+
