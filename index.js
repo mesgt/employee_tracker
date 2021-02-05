@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
-const Department = require('./public/assets/js/department');
-const Role = require('./public/assets/js/role');
-const Employee = require('./public/assets/js/employee');
+// const Department = require('./public/assets/js/department');
+// const Role = require('./public/assets/js/role');
+// const Employee = require('./public/assets/js/employee');
 
 function menu() {
     console.log("Welcome to Your Employee Tracker!")
@@ -24,9 +24,11 @@ function menu() {
                     },
                 ]).then(response => {
                     if(response.choiceDept === "view departments") {
+                        console.log("see dept")
                         //VIEW department table from sql.
                     }
-                    else if(response.choiceDept === "add a departments") {
+                    else if(response.choiceDept === "add a department") {
+                        console.log("add dept")
                         //run function to ADD data to dept table in sql.
                     }
                     else {
@@ -44,13 +46,16 @@ function menu() {
                         name: "choiceRole",
                     },
                 ]).then(response => {
-                    if(response.choiceDept === "view employee roles") {
+                    if(response.choiceRole === "view employee roles") {
+                        console.log("see roles")
                         //VIEW employee role table from sql.
                     }
-                    else if(response.choiceDept === "add an employee role") {
+                    else if(response.choiceRole === "add an employee role") {
+                        console.log("add roles")
                         //run function to ADD data to employee role table in sql.
                     }
-                    else if(response.choiceDept === "edit an employee role"){
+                    else if(response.choiceRole === "edit an employee role"){
+                        console.log("edit roles")
                         //run function to EDIT data to employee role table in sql.
                     }
                     else{
@@ -68,10 +73,12 @@ function menu() {
                         name: "choiceEmployee",
                     },
                 ]).then(response => {
-                    if(response.choiceDept === "view all employees") {
+                    if(response.choiceEmployee === "view all employees") {
+                        console.log("see employees")
                         //VIEW employee table from sql.
                     }
-                    else if(response.choiceDept === "add an employee") {
+                    else if(response.choiceEmployee === "add an employee") {
+                        console.log("add employees")
                         //run function to ADD data to employee table in sql.
                     }
                     else{
@@ -87,9 +94,18 @@ function menu() {
         })
 };
 
-const addDepartment = () => {
-};
+// const viewDept = () => {};
 
-const addRole = () => {
+// const addDept = () => {};
 
-}
+// const viewRole = () =>{};
+
+// const addRole = () => {};
+
+// const editRole = () => {};
+
+// const viewEmployee = () => {};
+
+// const addEmployee = () => {};
+
+menu();
