@@ -10,10 +10,10 @@ name VARCHAR(30) NOT NULL,
 PRIMARY KEY (id)
 );
 
-CREATE TABLE role (
+CREATE TABLE roleTb (
 id INT(10) NOT NULL AUTO_INCREMENT,
 title VARCHAR(30) NOT NULL,
-salary DECIMAL(2) NOT NULL,
+salary DECIMAL(10,2),
 department_id INT(10) NOT NULL,  -- foreign id--
 PRIMARY KEY (id)
 );
@@ -27,3 +27,8 @@ manager_id INT(10),
 PRIMARY KEY (id)
 );
 
+SELECT * FROM department;
+
+SELECT * FROM roleTb;
+
+SELECT * FROM employee;

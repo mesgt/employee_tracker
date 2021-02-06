@@ -61,11 +61,11 @@ function menu() {
                 ]).then(response => {
                     if(response.choiceRole === "view employee roles") {
                         console.log("see roles")
-                        //VIEW employee role table from sql.
+                        displayRole();
                     }
                     else if(response.choiceRole === "add an employee role") {
                         console.log("add roles")
-                        //run function to ADD data to employee role table in sql.
+                        addRole();
                     }
                     else if(response.choiceRole === "edit an employee role"){
                         console.log("edit roles")
@@ -107,8 +107,6 @@ function menu() {
         })
 };
 
-// const viewDept = () => {};
-
 function addDept() {
     inquirer
         .prompt({
@@ -131,6 +129,48 @@ function displayDept() {
         console.table(res);
     })
 };
+
+function addRole() {
+    inquirer
+        .prompt([
+            {
+            type: 'input',
+            message: 'Please enter new role TITLE:',
+            name: 'newRoleTitle'
+        },
+        {
+            type: 'input',
+            message: 'Please enter new role SALARY:',
+            name: 'newRoleSalary'
+        },
+        {
+            type: 'input', //make this a list of current departments.
+            message: 'Please enter new role DEPARTMENT ID:',
+            name: 'newRoleDept'
+        }
+        ]).then(function(response) {
+            connection.query(`INSERT INTO roleTb (title, salary, department_id) 
+            VALUES ('${response.newRoleTitle}', ${response.newRoleSalary}, '${response.newRoleDept}');`, function(err, res) {
+                if (err) throw err;
+                console.log(res.affectedRows);
+                displayRole();
+            })
+        })
+    };
+
+function displayRole() {
+    connection.query('SELECT * FROM roleTb', function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    })
+};
+
+// const editRole = () => {};
+
+// const addEmployee = () => {};
+
+// const viewEmployee = () => {};
+
 
 
 
