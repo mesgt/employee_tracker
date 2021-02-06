@@ -46,6 +46,7 @@ function menu() {
                     }
                     else {
                         console.log("You have chosen to exit the app");
+                        connection.end()
                         return
                     }
                 })
@@ -73,6 +74,7 @@ function menu() {
                     }
                     else{
                         console.log("You have chosen to exit the app");
+                        connection.end()
                         return
                     }
                 })
@@ -88,11 +90,11 @@ function menu() {
                 ]).then(response => {
                     if(response.choiceEmployee === "view all employees") {
                         console.log("see employees")
-                        //VIEW employee table from sql.
+                        displayEmployee();
                     }
                     else if(response.choiceEmployee === "add an employee") {
                         console.log("add employees")
-                        //run function to ADD data to employee table in sql.
+                        addEmployee();
                     }
                     else{
                         console.log("You have chosen to exit the app");
@@ -102,6 +104,7 @@ function menu() {
             }
             else {
                 console.log("You have chosen to exit the app");
+                connection.end()
                 return
             }
         })
@@ -117,7 +120,7 @@ function addDept() {
             connection.query(`INSERT INTO department (name) VALUES ('${response.newDept}');`, function(err, res) {
                 if (err) throw err;
                 else {console.log(res.affectedRows);
-                displayDept();
+                    userChoice();
                 }
             })
         })
@@ -127,6 +130,7 @@ function displayDept() {
     connection.query('SELECT * FROM department', function (err, res) {
         if (err) throw err;
         console.table(res);
+        userChoice();
     })
 };
 
@@ -153,7 +157,7 @@ function addRole() {
             VALUES ('${response.newRoleTitle}', ${response.newRoleSalary}, '${response.newRoleDept}');`, function(err, res) {
                 if (err) throw err;
                 console.log(res.affectedRows);
-                displayRole();
+                userChoice();
             })
         })
     };
@@ -162,15 +166,71 @@ function displayRole() {
     connection.query('SELECT * FROM roleTb', function (err, res) {
         if (err) throw err;
         console.table(res);
+        userChoice();
     })
 };
 
 // const editRole = () => {};
 
-// const addEmployee = () => {};
+function addEmployee() {
+    inquirer
+        .prompt([
+            {
+            type: 'input',
+            message: "Please enter new employee's first name:",
+            name: 'newEFirstName'
+        },
+        {
+            type: 'input',
+            message: "Please enter new employee's last name:",
+            name: 'newELastName'
+        },
+        {
+            type: 'input', //make this a list of current roles.
+            message: "Please enter new employee's role ID:",
+            name: 'NewERole'
+        },
+        {
+            type: 'input',
+            message: "Please enter new employee's manager ID:",
+            name: 'NewEManager'
+        }
+        ]).then(function(response) {
+            connection.query(`INSERT INTO roleTb (first_name, last_name, role_id, manager_id) 
+            VALUES ('${response.newEFirstName}', ${response.newELastName}, '${response.NewERole}', '${response.NewEManager}');`, function(err, res) {
+                if (err) throw err;
+                console.log(res.affectedRows);
+                userChoice();
+            })
+        })
+    };
 
-// const viewEmployee = () => {};
 
+function displayEmployee() {
+    connection.query('SELECT * FROM employee', function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        userChoice();
+    })
+};
+
+function userChoice() {
+    inquirer
+        .prompt([
+            {
+            type: 'list',
+            message: "What would you like to do next?",
+            choices: ["return to menu", "exit app"],
+            name: 'userChoice'
+        },
+    ]).then(function(response) {
+        if(response.userChoice==="return to menu") {
+            menu();
+        } else {
+            connection.end();
+        }
+    })
+};
 
 
 
