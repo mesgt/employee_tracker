@@ -96,7 +96,22 @@ function menu() {
 
 // const viewDept = () => {};
 
-// const addDept = () => {};
+function addDept() {
+    inquirer
+        .prompt({
+            type: 'input',
+            message: 'Please enter new Department name:',
+            name: 'newDept'
+        }).then(function(response) {
+            connection.query(`INSER INTO department (name) VALUES ('');`, function(err, res) {
+                if (err) throw err;
+                else {console.log(res.affectedRows);
+                // displayDept();
+                }
+            }),
+        })
+    }
+
 
 // const viewRole = () =>{};
 
