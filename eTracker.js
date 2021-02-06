@@ -1,7 +1,20 @@
+var mysql = require('mysql');
 const inquirer = require('inquirer');
-// const Department = require('./public/assets/js/department');
-// const Role = require('./public/assets/js/role');
-// const Employee = require('./public/assets/js/employee');
+// const { index } = require('./public/assets/js/index.js')
+
+var connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "root",
+    database: "employeeTracker_db"
+});
+
+connection.connect(function (err) {
+    if (err) throw err;
+    console.log("connected as id " + connection.threadId + "\n");
+    menu();
+});
 
 function menu() {
     console.log("Welcome to Your Employee Tracker!")
@@ -25,11 +38,11 @@ function menu() {
                 ]).then(response => {
                     if(response.choiceDept === "view departments") {
                         console.log("see dept")
-                        //VIEW department table from sql.
+                        displayDept();
                     }
                     else if(response.choiceDept === "add a department") {
                         console.log("add dept")
-                        //run function to ADD data to dept table in sql.
+                        addDept()
                     }
                     else {
                         console.log("You have chosen to exit the app");
@@ -103,24 +116,23 @@ function addDept() {
             message: 'Please enter new Department name:',
             name: 'newDept'
         }).then(function(response) {
-            connection.query(`INSER INTO department (name) VALUES ('');`, function(err, res) {
+            connection.query(`INSERT INTO department (name) VALUES ('${response.newDept}');`, function(err, res) {
                 if (err) throw err;
                 else {console.log(res.affectedRows);
-                // displayDept();
+                displayDept();
                 }
-            }),
+            })
         })
-    }
+    };
+
+function displayDept() {
+    connection.query('SELECT * FROM department', function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    })
+};
 
 
-// const viewRole = () =>{};
 
-// const addRole = () => {};
 
-// const editRole = () => {};
 
-// const viewEmployee = () => {};
-
-// const addEmployee = () => {};
-
-menu();
