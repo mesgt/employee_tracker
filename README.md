@@ -21,9 +21,9 @@ Published site: https://mesgt.github.io/employee_tracker/
 N/A
 
 ## Usage
-N/A
 
-![alt text](assets/images/screenshot.png)
+
+![Use example](/public/assets/images/employeeTracker.gif)
 
 ## Credits
 N/A
