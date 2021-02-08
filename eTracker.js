@@ -1,5 +1,8 @@
 var mysql = require('mysql');
 const inquirer = require('inquirer');
+const Department = require('./public/assets/js/department');
+const Role = require('./public/assets/js/role');
+const Employee = require('./public/assets/js/employee');
 // const { index } = require('./public/assets/js/index.js')
 
 var connection = mysql.createConnection({
@@ -154,7 +157,7 @@ function addRole() {
         }
         ]).then(function(response) {
             connection.query(`INSERT INTO roleTb (title, salary, department_id) 
-            VALUES ('${response.newRoleTitle}', ${response.newRoleSalary}, '${response.newRoleDept}');`, function(err, res) {
+            VALUES ('${response.newRoleTitle}', ${response.newRoleSalary}, ${response.newRoleDept});`, function(err, res) {
                 if (err) throw err;
                 console.log(res.affectedRows);
                 userChoice();
@@ -196,8 +199,8 @@ function addEmployee() {
             name: 'NewEManager'
         }
         ]).then(function(response) {
-            connection.query(`INSERT INTO roleTb (first_name, last_name, role_id, manager_id) 
-            VALUES ('${response.newEFirstName}', ${response.newELastName}, '${response.NewERole}', '${response.NewEManager}');`, function(err, res) {
+            connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) 
+            VALUES ('${response.newEFirstName}', '${response.newELastName}', '${response.NewERole}', '${response.NewEManager}');`, function(err, res) {
                 if (err) throw err;
                 console.log(res.affectedRows);
                 userChoice();
