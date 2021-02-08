@@ -3,7 +3,6 @@ const inquirer = require('inquirer');
 const Department = require('./public/assets/js/department');
 const Role = require('./public/assets/js/role');
 const Employee = require('./public/assets/js/employee');
-// const { index } = require('./public/assets/js/index.js')
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -39,11 +38,11 @@ function menu() {
                         name: "choiceDept",
                     },
                 ]).then(response => {
-                    if(response.choiceDept === "view departments") {
+                    if (response.choiceDept === "view departments") {
                         console.log("see dept")
                         displayDept();
                     }
-                    else if(response.choiceDept === "add a department") {
+                    else if (response.choiceDept === "add a department") {
                         console.log("add dept")
                         addDept()
                     }
@@ -63,19 +62,19 @@ function menu() {
                         name: "choiceRole",
                     },
                 ]).then(response => {
-                    if(response.choiceRole === "view employee roles") {
+                    if (response.choiceRole === "view employee roles") {
                         console.log("see roles")
                         displayRole();
                     }
-                    else if(response.choiceRole === "add an employee role") {
+                    else if (response.choiceRole === "add an employee role") {
                         console.log("add roles")
                         addRole();
                     }
-                    else if(response.choiceRole === "edit an employee role"){
+                    else if (response.choiceRole === "edit an employee role") {
                         console.log("edit roles")
-                        //run function to EDIT data to employee role table in sql.
+                        editRole()
                     }
-                    else{
+                    else {
                         console.log("You have chosen to exit the app");
                         connection.end()
                         return
@@ -91,15 +90,15 @@ function menu() {
                         name: "choiceEmployee",
                     },
                 ]).then(response => {
-                    if(response.choiceEmployee === "view all employees") {
+                    if (response.choiceEmployee === "view all employees") {
                         console.log("see employees")
                         displayEmployee();
                     }
-                    else if(response.choiceEmployee === "add an employee") {
+                    else if (response.choiceEmployee === "add an employee") {
                         console.log("add employees")
                         addEmployee();
                     }
-                    else{
+                    else {
                         console.log("You have chosen to exit the app");
                         return
                     }
@@ -119,15 +118,16 @@ function addDept() {
             type: 'input',
             message: 'Please enter new Department name:',
             name: 'newDept'
-        }).then(function(response) {
-            connection.query(`INSERT INTO department (name) VALUES ('${response.newDept}');`, function(err, res) {
+        }).then(function (response) {
+            connection.query(`INSERT INTO department (name) VALUES ('${response.newDept}');`, function (err, res) {
                 if (err) throw err;
-                else {console.log(res.affectedRows);
+                else {
+                    console.log(res.affectedRows);
                     userChoice();
                 }
             })
         })
-    };
+};
 
 function displayDept() {
     connection.query('SELECT * FROM department', function (err, res) {
@@ -141,29 +141,29 @@ function addRole() {
     inquirer
         .prompt([
             {
-            type: 'input',
-            message: 'Please enter new role TITLE:',
-            name: 'newRoleTitle'
-        },
-        {
-            type: 'input',
-            message: 'Please enter new role SALARY:',
-            name: 'newRoleSalary'
-        },
-        {
-            type: 'input', //make this a list of current departments.
-            message: 'Please enter new role DEPARTMENT ID:',
-            name: 'newRoleDept'
-        }
-        ]).then(function(response) {
+                type: 'input',
+                message: 'Please enter new role TITLE:',
+                name: 'newRoleTitle'
+            },
+            {
+                type: 'input',
+                message: 'Please enter new role SALARY:',
+                name: 'newRoleSalary'
+            },
+            {
+                type: 'input', //make this a list of current departments.
+                message: 'Please enter new role DEPARTMENT ID:',
+                name: 'newRoleDept'
+            }
+        ]).then(function (response) {
             connection.query(`INSERT INTO roleTb (title, salary, department_id) 
-            VALUES ('${response.newRoleTitle}', ${response.newRoleSalary}, ${response.newRoleDept});`, function(err, res) {
+            VALUES ('${response.newRoleTitle}', ${response.newRoleSalary}, ${response.newRoleDept});`, function (err, res) {
                 if (err) throw err;
                 console.log(res.affectedRows);
                 userChoice();
             })
         })
-    };
+};
 
 function displayRole() {
     connection.query('SELECT * FROM roleTb', function (err, res) {
@@ -173,41 +173,71 @@ function displayRole() {
     })
 };
 
-// const editRole = () => {};
+function editRole() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                message: 'Enter the role ID you would like to edit:',
+                name: 'editRoleID'
+            },
+            {
+                type: 'input',
+                message: 'Enter new title:',
+                name: 'roleTitle'
+            },
+            {
+                type: 'input',
+                message: 'Enter new salary:',
+                name: 'roleSalary'
+            }
+        ]).then(function (response) {
+            console.log(response.roleTitle);
+            console.log(response.roleSalary);
+            console.log(response.editRoleID);
+            var query = `UPDATE roleTb 
+            SET title = '${response.roleTitle}', salary = ${response.roleSalary} 
+            WHERE id = ${response.editRoleID}`;
+            connection.query(query, function (err, res) {
+                if (err) throw err;
+                console.log(res.affectedRows + " roles updated!\n")
+                userChoice();
+            })
+        });
+    };    
 
 function addEmployee() {
     inquirer
         .prompt([
             {
-            type: 'input',
-            message: "Please enter new employee's first name:",
-            name: 'newEFirstName'
-        },
-        {
-            type: 'input',
-            message: "Please enter new employee's last name:",
-            name: 'newELastName'
-        },
-        {
-            type: 'input', //make this a list of current roles.
-            message: "Please enter new employee's role ID:",
-            name: 'NewERole'
-        },
-        {
-            type: 'input',
-            message: "Please enter new employee's manager ID:",
-            name: 'NewEManager'
-        }
-        ]).then(function(response) {
+                type: 'input',
+                message: "Please enter new employee's first name:",
+                name: 'newEFirstName'
+            },
+            {
+                type: 'input',
+                message: "Please enter new employee's last name:",
+                name: 'newELastName'
+            },
+            {
+                type: 'input', //make this a list of current roles.
+                message: "Please enter new employee's role ID:",
+                name: 'NewERole'
+            },
+            {
+                type: 'input',
+                message: "Please enter new employee's manager ID:",
+                name: 'NewEManager'
+            }
+        ]).then(function (response) {
             connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) 
-            VALUES ('${response.newEFirstName}', '${response.newELastName}', '${response.NewERole}', '${response.NewEManager}');`, function(err, res) {
+            VALUES ('${response.newEFirstName}', '${response.newELastName}', '${response.NewERole}', '${response.NewEManager}');`, function (err, res) {
                 if (err) throw err;
                 console.log(res.affectedRows);
                 userChoice();
             })
         })
-    };
-
+};
 
 function displayEmployee() {
     connection.query('SELECT * FROM employee', function (err, res) {
@@ -221,21 +251,16 @@ function userChoice() {
     inquirer
         .prompt([
             {
-            type: 'list',
-            message: "What would you like to do next?",
-            choices: ["return to menu", "exit app"],
-            name: 'userChoice'
-        },
-    ]).then(function(response) {
-        if(response.userChoice==="return to menu") {
-            menu();
-        } else {
-            connection.end();
-        }
-    })
+                type: 'list',
+                message: "What would you like to do next?",
+                choices: ["return to menu", "exit app"],
+                name: 'userChoice'
+            },
+        ]).then(function (response) {
+            if (response.userChoice === "return to menu") {
+                menu();
+            } else {
+                connection.end();
+            }
+        })
 };
-
-
-
-
-
