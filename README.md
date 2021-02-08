@@ -1,50 +1,44 @@
-# employee_tracker
+# Employee Tracking App
 
-* **department**:
+## Description 
+This application utilizes node, inquirer and MySQL to create a user-friendly interface to manage employees by department, roles and employees. With this application, the user is able to create various departments, assign specific roles to these departments and enter employee information in association with a specific department and role. The user is also able to view all departments, roles and employees in a table displayed in the terminal. The user is simply asked a series of questions and based on the response, the terminal runs the command. 
 
-  * **id** - INT PRIMARY KEY
-  * **name** - VARCHAR(30) to hold department name
+## Links 
+Published site: https://mesgt.github.io/employee_tracker/ 
 
-* **role**:
+## Table of Contents
 
-  * **id** - INT PRIMARY KEY
-  * **title** -  VARCHAR(30) to hold role title
-  * **salary** -  DECIMAL to hold role salary
-  * **department_id** -  INT to hold reference to department role belongs to
-
-* **employee**:
-
-  * **id** - INT PRIMARY KEY
-  * **first_name** - VARCHAR(30) to hold employee first name
-  * **last_name** - VARCHAR(30) to hold employee last name
-  * **role_id** - INT to hold reference to role employee has
-  * **manager_id** - INT to hold reference to another employee that manages the employee being Created. This field may be null if the employee has no manager
+* [Description](#Description) 
+* [Links](#Links)
+* [Installation](#Installation)
+* [Usage](#Usage)
+* [Credits](#Credits)
+* [License](#License)
+* [Badges](#Badges)
 
 
+## Installation
+N/A
 
- * Add departments, roles, employees
+## Usage
+N/A
 
-  * View departments, roles, employees
+![alt text](assets/images/screenshot.png)
 
-  * Update employee roles
-  -----------------------------------
+## Credits
+N/A
 
-Bonus points if you're able to:
+## License
+The Unlicense
 
-  * Update employee managers
+## Badges
+N/A
 
-  * View employees by manager
+## Contributing
 
-  * Delete departments, roles, and employees
+I would like to welcome you to work with me on improving this project. Feel free to contact me on gitHub or submit a pull request.
 
-  * View the total utilized budget of a department -- ie the combined salaries of all employees in that department
+Please note that this project is released with a Contributor Code of Conduct. 
+By participating in this project you agree to abide by its terms. 
 
-  Bonus points if you're able to:
-
-  * Update employee managers
-
-  * View employees by manager
-
-  * Delete departments, roles, and employees
-
-  * View the total utilized budget of a department -- ie the combined salaries of all employees in that department
+If you are interested in collaborating with me on this project, please visit (https://www.contributor-covenant.org/version/2/0/code_of_conduct/) to review the latest version of Contributor Covenant. In Node.js, please run the following command "npm install -g covgen" and "covgen '<your_email_address>'". If you have npm 5.x installed you can run npx covgen <your_email_address> instead of installing globally.
